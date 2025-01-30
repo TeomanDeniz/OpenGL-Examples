@@ -50,3 +50,15 @@ modules.order
 Module.symvers
 Mkfile.old
 dkms.conf
+
+# macos
+.DS_Store
+
+# GL
+GL/include/GL/*
+GL/include/GLFW/*
+GL/lib/*
+GL/src/GLFW/*
+GL/src/GLUT/*
+GL/src/GLFW
+GL/src/GLUT

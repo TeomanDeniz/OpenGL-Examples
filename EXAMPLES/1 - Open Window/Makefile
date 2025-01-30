@@ -10,24 +10,42 @@
 #                                                                              #
 # **************************************************************************** #
 
+# **************************** [v] VARIABLES [v] ***************************** #
 GL_DIRECTORY = "../../GL/"
-MAIN = main
-MAIN_C = main.c
-MAIN_O = main.o
+CC = gcc
+NAME = main
+MAIN = main.c
+MAIN_O = $(NAME).o
 CFLAGS = -I$(GL_DIRECTORY)include -L$(GL_DIRECTORY)lib \
 	-lglfw -lGL -lGLU -lglut -lm -ldl -lglad
+# **************************** [^] VARIABLES [^] ***************************** #
+
+# ****************************** [v] COLORS [v] ****************************** #
+	C_RESET	= \033[0m
+	C_BLINK	= \033[5m
+	F15		= \033[38;5;15m
+	B1F11	= \033[48;5;1m\033[38;5;11m
+	B12F15	= \033[48;5;12m\033[38;5;15m
+	B1F15	= \033[48;5;1m\033[38;5;15m
+	B2F15	= \033[48;5;2m\033[38;5;15m
+	F11		= \033[38;5;11m
+	F13		= \033[38;5;13m
+	F14		= \033[38;5;14m
+	F10		= \033[38;5;10m
+# ****************************** [^] COLORS [^] ****************************** #
 
 all: gl $(MAIN_O)
 
 $(MAIN_O):
-	gcc $(MAIN_C) -o $(MAIN) $(CFLAGS)
-
+	@$(CC) $(MAIN) -o $(NAME) $(CFLAGS) 2>/dev/null && \
+		echo "\n $(C_BLINK)$(B2F15) $(NAME) is ready! $(C_RESET)\n" || \
+		echo "\n $(B1F15) Failed to compile $(NAME)! $(C_RESET)\n"
 gl:
-	@cd $(GL_DIRECTORY) && make
+	@cd $(GL_DIRECTORY) && make --no-print-directory
 
 glfc: glc
 glc:
-	@cd $(GL_DIRECTORY) && make fc
+	@cd $(GL_DIRECTORY) && make --no-print-directory fc
 
 c: fc
 clean: fc
@@ -35,6 +53,7 @@ clear: fc
 fclean: fc
 fclear: fc
 fc:
-	@rm -rf $(MAIN)
+	@rm -rf $(NAME)
+	@rm -rf $(MAIN_O)
 
 .PHONY: all c clean clear fclean fclear fc gl
